@@ -17,6 +17,10 @@ Thumbs.db
 
 # composer itself is not needed
 composer.phar
+composer.lock
+
+# docker database
+/docker_data
 
 # Mac DS_Store Files
 .DS_Store
