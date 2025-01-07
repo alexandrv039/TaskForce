@@ -76,7 +76,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <?= $content ?>
 </main>
 
-<?php //$this->registerJsFile(Yii::getAlias('@web/js/main.js')); ?>
 <?php $this->endBody() ?>
 </body>
 </html>
