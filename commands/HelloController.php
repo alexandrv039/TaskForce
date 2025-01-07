@@ -7,6 +7,7 @@
 
 namespace app\commands;
 
+use src\database\DataImporterCSV;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
@@ -30,5 +31,17 @@ class HelloController extends Controller
         echo $message . "\n";
 
         return ExitCode::OK;
+    }
+
+    public function actionLoadCities(): void
+    {
+        $dataImporter = new DataImporterCSV('src/database/cities.csv', ['name','lat','lng'], 'cities');
+        $dataImporter->import();
+    }
+
+    public function actionLoadCategories(): void
+    {
+        $dataImporter = new DataImporterCSV('src/database/categories.csv', ['name','icon'], 'categories');
+        $dataImporter->import();
     }
 }

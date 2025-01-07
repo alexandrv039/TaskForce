@@ -61,6 +61,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        \Yii::$app->db->open();
         return $this->render('index');
     }
 

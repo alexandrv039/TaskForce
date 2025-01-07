@@ -1,15 +1,15 @@
-DROP DATABASE IF EXISTS psr_test;
+DROP DATABASE IF EXISTS task_force;
 
-CREATE DATABASE IF NOT EXISTS psr_test;
+CREATE DATABASE IF NOT EXISTS task_force;
 
-CREATE TABLE psr_test.categories(
+CREATE TABLE task_force.categories(
     id int auto_increment,
     name varchar(255) not null,
     icon varchar(1000) not null,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE psr_test.cities(
+CREATE TABLE task_force.cities(
     id int auto_increment,
     name varchar(255) not null,
     lat double not null,
@@ -17,7 +17,7 @@ CREATE TABLE psr_test.cities(
     PRIMARY KEY (id)
 );
 
-CREATE TABLE psr_test.users(
+CREATE TABLE task_force.users(
     id int auto_increment,
     name varchar(255) not null,
     email varchar(255) not null,
@@ -31,11 +31,11 @@ CREATE TABLE psr_test.users(
     about text,
     status tinyint,
     city_id int not null,
-    FOREIGN KEY (city_id) REFERENCES psr_test.cities (id),
+    FOREIGN KEY (city_id) REFERENCES task_force.cities (id),
     PRIMARY KEY (id)
 );
 
-CREATE TABLE psr_test.tasks(
+CREATE TABLE task_force.tasks(
     id int PRIMARY KEY auto_increment,
     client_id int not null,
     city_id int,
@@ -48,39 +48,39 @@ CREATE TABLE psr_test.tasks(
     win_response_id int,
     end_date datetime,
     category_id int not null,
-    FOREIGN KEY (performer_id) REFERENCES psr_test.users (id),
-    FOREIGN KEY (client_id) REFERENCES psr_test.users (id),
-    FOREIGN KEY (city_id) REFERENCES psr_test.cities (id),
-    FOREIGN KEY (category_id) REFERENCES psr_test.categories (id)
+    FOREIGN KEY (performer_id) REFERENCES task_force.users (id),
+    FOREIGN KEY (client_id) REFERENCES task_force.users (id),
+    FOREIGN KEY (city_id) REFERENCES task_force.cities (id),
+    FOREIGN KEY (category_id) REFERENCES task_force.categories (id)
 );
 
-CREATE TABLE psr_test.reviews(
+CREATE TABLE task_force.reviews(
     id int PRIMARY KEY auto_increment,
     user_id int not null,
     task_id int not null,
     rating tinyint default 0,
-    FOREIGN KEY (user_id) REFERENCES psr_test.users (id) ON DELETE CASCADE,
-    FOREIGN KEY (task_id) REFERENCES psr_test.tasks (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES task_force.users (id) ON DELETE CASCADE,
+    FOREIGN KEY (task_id) REFERENCES task_force.tasks (id) ON DELETE CASCADE
 );
 
-CREATE TABLE psr_test.responses (
+CREATE TABLE task_force.responses (
     id int auto_increment,
     user_id int not null,
     task_id int not null,
     price double not null,
     created_at datetime,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES psr_test.users (id) ON DELETE CASCADE,
-    FOREIGN KEY (task_id) REFERENCES psr_test.tasks (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES task_force.users (id) ON DELETE CASCADE,
+    FOREIGN KEY (task_id) REFERENCES task_force.tasks (id) ON DELETE CASCADE
 );
 
-ALTER TABLE psr_test.tasks ADD FOREIGN KEY (win_response_id) REFERENCES psr_test.responses (id);
+ALTER TABLE task_force.tasks ADD FOREIGN KEY (win_response_id) REFERENCES task_force.responses (id);
 
-CREATE TABLE psr_test.task_files (
+CREATE TABLE task_force.task_files (
     id int auto_increment,
     task_id int not null,
     name varchar(255),
     path varchar(1000),
     PRIMARY KEY (id),
-    FOREIGN KEY (task_id) REFERENCES psr_test.tasks (id) ON DELETE CASCADE
+    FOREIGN KEY (task_id) REFERENCES task_force.tasks (id) ON DELETE CASCADE
 );

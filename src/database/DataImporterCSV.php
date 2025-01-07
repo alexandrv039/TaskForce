@@ -118,7 +118,7 @@ class DataImporterCSV
     private function loadToDatabase(): void
     {
 
-        $connection = new mysqli('mysqldb', 'root', 'root', 'psr_test');
+        $connection = new mysqli('mysqldb', 'root', 'root', 'task_force');
         $connection->set_charset('utf8mb4');
 
         /** @var mysqli $link */
