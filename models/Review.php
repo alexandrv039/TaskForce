@@ -47,7 +47,7 @@ class Review extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'task_id' => 'Task ID',
-            'rating' => 'Rating',
+            'rating' => 'Оценка',
         ];
     }
 

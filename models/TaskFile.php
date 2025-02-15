@@ -46,8 +46,8 @@ class TaskFile extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'task_id' => 'Task ID',
-            'name' => 'Name',
-            'path' => 'Path',
+            'name' => 'Наименование',
+            'path' => 'Полный путь',
         ];
     }
 

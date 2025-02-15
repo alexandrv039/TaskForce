@@ -44,9 +44,9 @@ class City extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'lat' => 'Lat',
-            'lng' => 'Lng',
+            'name' => 'Наименование',
+            'lat' => 'Широта',
+            'lng' => 'Долгота',
         ];
     }
 
