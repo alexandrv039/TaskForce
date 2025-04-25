@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Roles;
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -52,6 +54,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'city' => ['required', 'string'],
+            'response_user' => ['nullable'],
         ]);
     }
 
@@ -67,6 +71,8 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'city_id' => City::query()->where('name', $data['city'])->first()?->id,
+            'role' => $data['response_user'] ? Roles::EXECUTOR : Roles::CUSTOMER,
         ]);
     }
 }

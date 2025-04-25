@@ -1430,7 +1430,7 @@ input[type=submit] {
   width: 171px; }
 
 .has-error .help-block {
-  visibility: visible; }
+    visibility: visible; }
 
 .has-error input,
 .has-error select,

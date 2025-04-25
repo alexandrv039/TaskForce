@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user', function (Blueprint $table) {
-            $table->enum('role', \App\Enums\Roles::cases());
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('role', [\App\Enums\Roles::EXECUTOR->name, \App\Enums\Roles::CUSTOMER->name]);
             $table->tinyInteger('rating')->default(0);
             $table->binary('avatar')->nullable();
-            $table->date('birthday');
+            $table->date('birthday')->nullable();
             $table->string('phone')->nullable();
             $table->string('telegram')->nullable();
             $table->text('about')->nullable();
@@ -27,7 +27,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropColumns('user', [
+        Schema::dropColumns('users', [
             'role',
             'rating',
             'avatar',
