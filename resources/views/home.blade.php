@@ -58,53 +58,21 @@
 <main class="main-content container">
     <div class="left-column">
         <h3 class="head-main head-task">Новые задания</h3>
-        <div class="task-card">
-            <div class="header-task">
-                <a  href="#" class="link link--block link--big">Перевести войну и мир на клингонский</a>
-                <p class="price price--task">3400 ₽</p>
+        @foreach($tasks as $task)
+            <div class="task-card">
+                <div class="header-task">
+                    <a  href="#" class="link link--block link--big">{{ $task->title }}</a>
+                    <p class="price price--task">{{ $task->price }} ₽</p>
+                </div>
             </div>
             <p class="info-text"><span class="current-time">4 часа </span>назад</p>
-            <p class="task-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius tortor nibh, sit amet tempor
-                nibh finibus et. Aenean eu enim justo. Vestibulum aliquam hendrerit molestie. Mauris malesuada nisi sit amet augue accumsan tincidunt.
-            </p>
+            <p class="task-text">{{ $task->description }}</p>
             <div class="footer-task">
-                <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
+                <p class="info-text town-text">{{ $task->city->name }}</p>
                 <p class="info-text category-text">Переводы</p>
                 <a href="#" class="button button--black">Смотреть Задание</a>
             </div>
-        </div>
-        <div class="task-card">
-            <div class="header-task">
-                <a  href="#" class="link link--block link--big">Убраться в квартире после вписки</a>
-                <p class="price price--task">4700 ₽</p>
-            </div>
-            <p class="info-text"><span class="current-time">4 часа </span>назад</p>
-            <p class="task-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius tortor nibh, sit amet tempor
-                nibh finibus et. Aenean eu enim justo. Vestibulum aliquam hendrerit molestie. Mauris malesuada nisi sit amet augue accumsan tincidunt.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius tortor nibh, sit amet tempor
-                nibh finibus et. Aenean eu enim justo. Vestibulum aliquam hendrerit molestie. Mauris malesuada nisi sit amet augue accumsan tincidunt.
-            </p>
-            <div class="footer-task">
-                <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
-                <p class="info-text category-text">Переводы</p>
-                <a href="#" class="button button--black">Смотреть Задание</a>
-            </div>
-        </div>
-        <div class="task-card">
-            <div class="header-task">
-                <a  href="#" class="link link--block link--big">Перевезти груз на новое место</a>
-                <p class="price price--task">18750 ₽</p>
-            </div>
-            <p class="info-text"><span class="current-time">4 часа </span>назад</p>
-            <p class="task-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius tortor nibh, sit amet tempor
-                nibh finibus et. Aenean eu enim justo. Vestibulum aliquam hendrerit molestie. Mauris malesuada nisi sit amet augue accumsan tincidunt.
-            </p>
-            <div class="footer-task">
-                <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
-                <p class="info-text category-text">Переводы</p>
-                <a href="#" class="button button--black">Смотреть Задание</a>
-            </div>
-        </div>
+        @endforeach
         <div class="pagination-wrapper">
             <ul class="pagination-list">
                 <li class="pagination-item mark">
