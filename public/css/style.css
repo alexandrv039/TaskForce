@@ -610,6 +610,20 @@ template {
   .menu-item a {
     color: #05060f; }
 
+.form-inline {
+    background: inherit;
+    display: inline-block;
+}
+
+.form-inline input[type=submit] {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    background-color: inherit;
+    width: auto;
+    float: left;
+}
+
 .user-photo {
   border-radius: 4px; }
 

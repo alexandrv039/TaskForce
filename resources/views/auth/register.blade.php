@@ -82,7 +82,7 @@
                 <form action="{{ route('register') }}" method="post">
                     @csrf
                     <h3 class="head-main head-task">Регистрация нового пользователя</h3>
-                    <div class="form-group @error('email') has-error @enderror">
+                    <div class="form-group @error('name') has-error @enderror">
                         <label class="control-label" for="username">Ваше имя</label>
                         <input id="username" type="text" name="name" value="{{ old('name') }}">
                         <span class="help-block">@error('name'){{ $message }}@enderror</span>
