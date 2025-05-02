@@ -44,7 +44,7 @@ class Task extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function category()
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class, 'category', 'name');
     }
