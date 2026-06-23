@@ -41,19 +41,18 @@
     <div class="right-column">
         <div class="right-card black">
             <div class="search-form">
-                <form>
+                <form action="{{ route('index') }}" method="get">
+                    @csrf
                     <h4 class="head-card">Категории</h4>
                     <div class="form-group">
                         <div class="checkbox-wrapper">
-                            <label class="control-label" for="сourier-services">
-                                <input type="checkbox" id="сourier-services" checked>
-                                Курьерские услуги</label>
-                            <label class="control-label" for="cargo-transportation">
-                                <input id="cargo-transportation" type="checkbox">
-                                Грузоперевозки</label>
-                            <label class="control-label" for="translations">
-                                <input id="translations" type="checkbox">
-                                Переводы</label>
+                            @foreach($categories as $category)
+                                <label class="control-label" for="{{ $category->icon }}_id">
+                                    <input type="checkbox" name="categories[]" id="{{ $category->icon }}_id"
+                                           value="{{ $category->name }}"
+                                           @if(is_array($filters['categories']) && in_array($category->name, $filters['categories'])) checked @endif>
+                                    {{ $category->name }}</label>
+                            @endforeach
                         </div>
                     </div>
                     <h4 class="head-card">Дополнительно</h4>

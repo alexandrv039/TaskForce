@@ -9,7 +9,7 @@
 <body>
 <header class="page-header">
     <nav class="main-nav">
-        <a href='{{ route('home') }}' class="header-logo">
+        <a href='{{ route('index') }}' class="header-logo">
             <img class="logo-image" src="img/logotype.png" width=227 height=60 alt="taskforce">
         </a>
         <div class="nav-wrapper">

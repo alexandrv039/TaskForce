@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\Category;
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -16,10 +19,18 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function list(Request $request)
     {
-        $tasks = Task::all();
-        return view('home', ['tasks' => $tasks]);
+        $filters = [
+            'categories' => $request->get('categories'),
+        ];
+        $tasks = Task::query()
+            ->when($request->get('categories'), function (Builder $query, $categories) {
+                $query->whereIn('category', $categories);
+            })
+            ->get();
+        $categories = Category::all();
+        return view('home', ['tasks' => $tasks, 'categories' => $categories, 'filters' => $filters]);
     }
 
     /**
