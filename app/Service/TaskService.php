@@ -10,16 +10,17 @@ class TaskService
     private const STATUS_COMPLETED = 'completed';
     private const STATUS_FAILED = 'failed';
 
+    private const ACTION_START = 'action_start'; // запусть исполнение задания
     private const ACTION_CANCEL = 'action_cancel'; // отменить заказчиком
     private const ACTION_RESPOND = 'action_respond'; // откликнуться исполнителем
     private const ACTION_COMPLETE = 'action_complete'; // выполнено - подтверждение заказчиком
     private const ACTION_REJECT = 'action_reject'; // отказаться - исполнителем
 
     private string $status;
-    private int $executorId; // идентификатор исполнителя
+    private ?int $executorId; // идентификатор исполнителя
     private int $customerId; // идентификатор заказчика
 
-    public function __construct(int $executorId, int $customerId, string $status = self::STATUS_NEW)
+    public function __construct(int $customerId, ?int $executorId, string $status = self::STATUS_NEW)
     {
         $this->executorId = $executorId;
         $this->customerId = $customerId;
@@ -35,16 +36,17 @@ class TaskService
     {
         return match ($action) {
             self::ACTION_CANCEL => self::STATUS_CANCELED,
-            self::ACTION_RESPOND => self::STATUS_IN_PROGRESS,
+            self::ACTION_START => self::STATUS_IN_PROGRESS,
             self::ACTION_REJECT => self::STATUS_FAILED,
             self::ACTION_COMPLETE => self::STATUS_COMPLETED,
+            default => $this->currentStatus()
         };
     }
 
     public function availableActionsForStatus($status): array
     {
         return match ($status) {
-            self::STATUS_NEW => [self::ACTION_CANCEL, self::ACTION_RESPOND],
+            self::STATUS_NEW => [self::ACTION_CANCEL, self::ACTION_RESPOND, self::ACTION_START],
             self::STATUS_IN_PROGRESS => [self::ACTION_REJECT, self::ACTION_COMPLETE],
             default => []
         };
@@ -64,9 +66,10 @@ class TaskService
     public function actionTitleMap(): array
     {
         return [
+            self::ACTION_START => 'Запустить',
             self::ACTION_CANCEL => 'Отменить',
             self::ACTION_RESPOND => 'Откликнуться',
-            self::ACTION_COMPLETE => 'Выполнено',
+            self::ACTION_COMPLETE => 'Завершить',
             self::ACTION_REJECT => 'Отказаться',
         ];
     }
