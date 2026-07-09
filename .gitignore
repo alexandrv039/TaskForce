@@ -22,3 +22,4 @@ yarn-error.log
 /.vscode
 /.zed
 /docker_data
+.DS_Store
