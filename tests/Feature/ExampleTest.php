@@ -20,7 +20,6 @@ class ExampleTest extends TestCase
     {
 
         $user = User::factory()->create();
-        $city = City::factory()->create();
         Auth::login($user);
 
         $response = $this->get('/');

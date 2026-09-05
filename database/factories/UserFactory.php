@@ -31,10 +31,9 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'city_id' => City::all()->random()->id,
+            'city_id' => City::factory()->create()->id,
             'role' => Roles::EXECUTOR->name,
             'birthday' => now()->addYears(-20),
-            'city' => City::factory()->create()->first()->id,
         ];
     }
 
