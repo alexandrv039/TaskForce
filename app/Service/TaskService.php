@@ -2,6 +2,13 @@
 
 namespace App\Service;
 
+use App\Actions\AbstractAction;
+use App\Actions\ActionCancel;
+use App\Actions\ActionComplete;
+use App\Actions\ActionReject;
+use App\Actions\ActionRespond;
+use App\Actions\ActionStart;
+
 class TaskService
 {
     private const STATUS_NEW = 'new';
@@ -10,20 +17,16 @@ class TaskService
     private const STATUS_COMPLETED = 'completed';
     private const STATUS_FAILED = 'failed';
 
-    private const ACTION_START = 'action_start'; // запусть исполнение задания
-    private const ACTION_CANCEL = 'action_cancel'; // отменить заказчиком
-    private const ACTION_RESPOND = 'action_respond'; // откликнуться исполнителем
-    private const ACTION_COMPLETE = 'action_complete'; // выполнено - подтверждение заказчиком
-    private const ACTION_REJECT = 'action_reject'; // отказаться - исполнителем
-
     private string $status;
     private ?int $executorId; // идентификатор исполнителя
     private int $customerId; // идентификатор заказчика
+    private ?int $currentUserId; // идентификатор текущего пользователя
 
-    public function __construct(int $customerId, ?int $executorId, string $status = self::STATUS_NEW)
+    public function __construct(int $customerId, ?int $executorId, ?int $currentUserId, string $status = self::STATUS_NEW)
     {
         $this->executorId = $executorId;
         $this->customerId = $customerId;
+        $this->currentUserId = $currentUserId;
         $this->status = $status;
     }
 
@@ -35,21 +38,29 @@ class TaskService
     public function getNextStatus(string $action): string
     {
         return match ($action) {
-            self::ACTION_CANCEL => self::STATUS_CANCELED,
-            self::ACTION_START => self::STATUS_IN_PROGRESS,
-            self::ACTION_REJECT => self::STATUS_FAILED,
-            self::ACTION_COMPLETE => self::STATUS_COMPLETED,
+            ActionCancel::class => self::STATUS_CANCELED,
+            ActionStart::class => self::STATUS_IN_PROGRESS,
+            ActionReject::class => self::STATUS_FAILED,
+            ActionComplete::class => self::STATUS_COMPLETED,
             default => $this->currentStatus()
         };
     }
 
     public function availableActionsForStatus($status): array
     {
-        return match ($status) {
-            self::STATUS_NEW => [self::ACTION_CANCEL, self::ACTION_RESPOND, self::ACTION_START],
-            self::STATUS_IN_PROGRESS => [self::ACTION_REJECT, self::ACTION_COMPLETE],
+
+        if (is_null($this->currentUserId)) return [];
+
+        $actions = match ($status) {
+            self::STATUS_NEW => [ActionCancel::class, ActionRespond::class, ActionStart::class],
+            self::STATUS_IN_PROGRESS => [ActionReject::class, ActionComplete::class],
             default => []
         };
+
+
+        /** @var AbstractAction[] $actions */
+        return array_values(array_filter($actions, fn($action) => $action::canExecute($this->customerId, $this->executorId, $this->currentUserId)));
+
     }
 
     public function statusTitleMap(): array
@@ -60,17 +71,6 @@ class TaskService
             self::STATUS_IN_PROGRESS => 'В работе',
             self::STATUS_COMPLETED => 'Выполнено',
             self::STATUS_FAILED => 'Провалено',
-        ];
-    }
-
-    public function actionTitleMap(): array
-    {
-        return [
-            self::ACTION_START => 'Запустить',
-            self::ACTION_CANCEL => 'Отменить',
-            self::ACTION_RESPOND => 'Откликнуться',
-            self::ACTION_COMPLETE => 'Завершить',
-            self::ACTION_REJECT => 'Отказаться',
         ];
     }
 
