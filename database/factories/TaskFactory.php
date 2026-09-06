@@ -23,12 +23,12 @@ class TaskFactory extends Factory
         return [
             'title' => $this->faker->jobTitle(),
             'description' => $this->faker->text(),
-            'city_id' => City::all()->random()->id,
+            'city_id' => City::factory()->create()->id,
             'price' => $this->faker->randomNumber(),
             'deadline' => $this->faker->dateTime(),
-            'customer_id' => User::all()->random()->id,
+            'customer_id' => User::factory()->create()->id,
             'status' => $this->faker->randomElement(TaskStatuses::allStatuses()),
-            'category' => Category::all()->random()->name,
+            'category_name' => Category::factory()->create()->name,
         ];
     }
 }

@@ -13,10 +13,10 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-//        Category::query()->create([
-//            'name' => 'Курьерские услуги',
-//            'icon' => 'courier',
-//        ]);
-
+        Category::query()->create([
+            'name' => 'courier',
+            'display_name' => 'Курьерские услуги',
+            'icon' => 'courier',
+        ]);
     }
 }

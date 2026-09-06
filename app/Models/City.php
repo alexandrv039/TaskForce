@@ -6,6 +6,12 @@ use Database\Factories\CityFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property double $lat
+ * @property double $lng
+ */
 class City extends Model
 {
 
@@ -16,6 +22,11 @@ class City extends Model
         'name',
         'lat',
         'lng',
+    ];
+
+    protected $casts = [
+        'lat' => 'float',
+        'lng' => 'float',
     ];
 
     public $timestamps = false;

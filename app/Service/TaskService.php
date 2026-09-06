@@ -46,6 +46,10 @@ class TaskService
         };
     }
 
+    /**
+     * @param $status
+     * @return AbstractAction[]
+     */
     public function availableActionsForStatus($status): array
     {
 
