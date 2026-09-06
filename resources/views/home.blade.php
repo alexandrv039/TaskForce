@@ -1,3 +1,11 @@
+@php
+    /**
+     * @var \Illuminate\Pagination\LengthAwarePaginator<int, \App\Models\Task> $tasks
+     * @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\Category> $categories
+     * @var array{categories: array<string>|null} $filters
+     */
+@endphp
+
 @extends('layouts.app')
 
 @section('content')
@@ -18,25 +26,23 @@
                 <a href="#" class="button button--black">Смотреть Задание</a>
             </div>
         @endforeach
+        @if($tasks->hasPages())
         <div class="pagination-wrapper">
             <ul class="pagination-list">
                 <li class="pagination-item mark">
-                    <a href="#" class="link link--page"></a>
+                    <a href="{{ $tasks->previousPageUrl() }}" class="link link--page"></a>
                 </li>
-                <li class="pagination-item">
-                    <a href="#" class="link link--page">1</a>
-                </li>
-                <li class="pagination-item pagination-item--active">
-                    <a href="#" class="link link--page">2</a>
-                </li>
-                <li class="pagination-item">
-                    <a href="#" class="link link--page">3</a>
-                </li>
+                @foreach($tasks->getUrlRange(1, $tasks->lastPage()) as $page => $url)
+                    <li class="pagination-item @if($page == $tasks->currentPage()) pagination-item--active @endif">
+                        <a href="{{ $url }}" class="link link--page">{{ $page }}</a>
+                    </li>
+                @endforeach
                 <li class="pagination-item mark">
-                    <a href="#" class="link link--page"></a>
+                    <a href="{{ $tasks->nextPageUrl() }}" class="link link--page"></a>
                 </li>
             </ul>
         </div>
+        @endif
     </div>
     <div class="right-column">
         <div class="right-card black">

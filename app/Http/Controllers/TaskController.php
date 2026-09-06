@@ -28,7 +28,8 @@ class TaskController extends Controller
             ->when($request->get('categories'), function (Builder $query, $categories) {
                 $query->whereIn('category', $categories);
             })
-            ->get();
+            ->paginate(10)
+            ->withQueryString();
         $categories = Category::all();
         return view('home', ['tasks' => $tasks, 'categories' => $categories, 'filters' => $filters]);
     }
