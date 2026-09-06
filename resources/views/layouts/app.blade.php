@@ -14,6 +14,7 @@
         </a>
         <div class="nav-wrapper">
             <ul class="nav-list">
+                @auth()
                 <li class="list-item list-item--active">
                     <a class="link link--nav" >Новое</a>
                 </li>
@@ -26,9 +27,11 @@
                 <li class="list-item">
                     <a href="#" class="link link--nav" >Настройки</a>
                 </li>
+                @endauth
             </ul>
         </div>
     </nav>
+    @auth()
     <div class="user-block">
         <a href="#">
             <img class="user-photo" src="img/man-glasses.png" width="55" height="55" alt="Аватар">
@@ -54,6 +57,7 @@
             </div>
         </div>
     </div>
+    @endauth
 </header>
 <main class="main-content container">
 
