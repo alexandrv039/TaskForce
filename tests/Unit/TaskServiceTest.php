@@ -7,18 +7,20 @@ use App\Actions\ActionComplete;
 use App\Actions\ActionReject;
 use App\Actions\ActionRespond;
 use App\Actions\ActionStart;
+use App\Enums\TaskStatuses;
+use App\Exceptions\StatusActionException;
 use App\Service\TaskService;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class TaskServiceTest extends TestCase
 {
-    private const CUSTOMER_ID = 1;
-    private const EXECUTOR_ID = 2;
-    private const STRANGER_ID = 3;
+    private const int CUSTOMER_ID = 1;
+    private const int EXECUTOR_ID = 2;
+    private const int STRANGER_ID = 3;
 
-    private const STATUS_NEW = 'new';
-    private const STATUS_IN_PROGRESS = 'in_progress';
+    private const string STATUS_NEW = TaskStatuses::STATUS_NEW;
+    private const string STATUS_IN_PROGRESS = TaskStatuses::STATUS_IN_PROGRESS;
 
     public function test_current_status_returns_status_from_constructor(): void
     {
@@ -74,11 +76,6 @@ class TaskServiceTest extends TestCase
                 self::STATUS_NEW,
                 [],
             ],
-            'неизвестный статус не даёт действий' => [
-                self::CUSTOMER_ID,
-                'unknown_status',
-                [],
-            ],
         ];
     }
 
@@ -106,10 +103,10 @@ class TaskServiceTest extends TestCase
     public static function nextStatusProvider(): array
     {
         return [
-            'отмена -> canceled' => [ActionCancel::class, 'canceled'],
-            'запуск -> in_progress' => [ActionStart::class, 'in_progress'],
-            'отказ -> failed' => [ActionReject::class, 'failed'],
-            'завершение -> completed' => [ActionComplete::class, 'completed'],
+            'отмена -> canceled' => [ActionCancel::class, TaskStatuses::STATUS_CANCELED],
+            'запуск -> in_progress' => [ActionStart::class, TaskStatuses::STATUS_IN_PROGRESS],
+            'отказ -> failed' => [ActionReject::class, TaskStatuses::STATUS_FAILED],
+            'завершение -> completed' => [ActionComplete::class, TaskStatuses::STATUS_COMPLETED],
         ];
     }
 
@@ -118,6 +115,12 @@ class TaskServiceTest extends TestCase
         $service = $this->makeService(self::CUSTOMER_ID, self::STATUS_IN_PROGRESS);
 
         $this->assertSame(self::STATUS_IN_PROGRESS, $service->getNextStatus('unknown_action'));
+    }
+
+    public function test_unknown_status_exception(): void
+    {
+        $this->expectException(StatusActionException::class);
+        $this->makeService(self::CUSTOMER_ID, 'unknown_status');
     }
 
     /**

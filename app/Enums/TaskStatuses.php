@@ -5,10 +5,10 @@ namespace App\Enums;
 enum TaskStatuses
 {
     public const string STATUS_NEW = 'new'; // Новое
-    public const string STATUS_CANCEL = 'cancel'; // Отменено
+    public const string STATUS_CANCELED = 'cancel'; // Отменено
     public const string STATUS_IN_PROGRESS = 'in_progress'; // В работе
-    public const string STATUS_COMPLETE = 'complete'; // Выполнено
-    public const string STATUS_EXPIRED = 'expired'; // Провалено
+    public const string STATUS_COMPLETED = 'complete'; // Выполнено
+    public const string STATUS_FAILED = 'failed'; // Провалено
 
     /**
      * Функция возвращает карту статусов с именами на русском
@@ -19,10 +19,10 @@ enum TaskStatuses
     {
         return [
             self::STATUS_NEW => 'Новое',
-            self::STATUS_CANCEL => 'Отменено',
+            self::STATUS_CANCELED => 'Отменено',
             self::STATUS_IN_PROGRESS => 'В работе',
-            self::STATUS_COMPLETE => 'Выполнено',
-            self::STATUS_EXPIRED => 'Провалено',
+            self::STATUS_COMPLETED => 'Выполнено',
+            self::STATUS_FAILED => 'Провалено',
         ];
     }
 
@@ -30,10 +30,10 @@ enum TaskStatuses
     {
         return [
             self::STATUS_NEW,
-            self::STATUS_CANCEL,
+            self::STATUS_CANCELED,
             self::STATUS_IN_PROGRESS,
-            self::STATUS_COMPLETE,
-            self::STATUS_EXPIRED,
+            self::STATUS_COMPLETED,
+            self::STATUS_FAILED,
         ];
     }
 }
