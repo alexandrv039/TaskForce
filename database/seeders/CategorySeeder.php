@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\DataImporter;
 use App\Models\Category;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -13,10 +13,11 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::query()->create([
-            'name' => 'courier',
-            'display_name' => 'Курьерские услуги',
-            'icon' => 'courier',
-        ]);
+        DataImporter::from(__DIR__ . '/../initialization/categories.csv')->getDataForModel(Category::class);
+//        Category::query()->create([
+//            'name' => 'courier',
+//            'display_name' => 'Курьерские услуги',
+//            'icon' => 'courier',
+//        ]);
     }
 }

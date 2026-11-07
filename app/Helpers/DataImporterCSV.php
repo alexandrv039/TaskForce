@@ -13,22 +13,18 @@ class DataImporterCSV
 {
     private string $filename;
     private array $columns;
-    private string $sourceTable;
-    private $fileObject;
-
-    private $result = [];
-    private $error = null;
+    private string $sourceModel;
 
     /**
      * @param string $filename - Полный путь к файлу
      * @param string[] $columns - Имена колонок (должны совпадать в файле и в БД)
-     * @param string $sourceTable - Имя целевой таблицы, куда будут загружены данные
+     * @param string $sourceModel - Имя класса целевой модели, куда будут загружены данные
      */
-    public function __construct(string $filename, array $columns, string $sourceTable)
+    public function __construct(string $filename, array $columns, string $sourceModel)
     {
         $this->filename = $filename;
         $this->columns = $columns;
-        $this->sourceTable = $sourceTable;
+        $this->sourceModel = $sourceModel;
     }
 
     /**
